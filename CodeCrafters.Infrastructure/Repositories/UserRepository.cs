@@ -26,14 +26,18 @@ namespace CodeCrafters.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<User?> GetUserByProviderAsync(string provider, string providerUserId)
+        public async Task<User?> GetUserByProviderAsync(string provider, string providerUserId)
         {
-            throw new NotImplementedException();
+            return await _context.ExternalLogins
+            .Where(el => el.Provider == provider && el.ProviderUserId == providerUserId)
+            .Select(el => el.User) // Fetch the linked user
+            .FirstOrDefaultAsync();
         }
 
-        public Task LinkExternalLoginAsync(ExternalLogin externalLogin)
+        public async Task LinkExternalLoginAsync(ExternalLogin externalLogin)
         {
-            throw new NotImplementedException();
+            await _context.ExternalLogins.AddAsync(externalLogin);
+            await _context.SaveChangesAsync();
         }
     }
 }
