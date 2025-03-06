@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeCrafters.Domain.Interfaces.Auth
+﻿namespace CodeCrafters.Domain.Interfaces.Auth
 {
     public interface IOAuthService
     {
