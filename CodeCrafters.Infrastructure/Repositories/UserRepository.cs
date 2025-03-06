@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CodeCrafters.Domain.Entities.Auth;
+﻿using CodeCrafters.Domain.Entities.Auth;
 using CodeCrafters.Domain.Interfaces.Auth;
 using CodeCrafters.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

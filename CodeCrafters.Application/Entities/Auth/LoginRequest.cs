@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeCrafters.Application.Entities.Auth
+﻿namespace CodeCrafters.Application.Entities.Auth
 {
     public class LoginRequest
     {
