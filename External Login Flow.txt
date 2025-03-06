@@ -1,0 +1,30 @@
+Client -> GET /api/auth/{provider}/login (e.g., provider = "google")
+  |
+Backend -> Create OAuth challenge
+  |-> Redirect to Provider OAuth consent screen
+  |   |-> URL: provider-specific (e.g., google.com/auth)
+  |   |-> Params: client_id, redirect_uri, scope
+  |
+Provider -> User authenticates with Provider
+  |-> Success? -> Yes -> Redirect to GET /api/auth/{provider}/callback (code)
+  |-> No -> Error page or redirect with error
+  |
+Backend -> Receive callback (code)
+  |-> Exchange code for tokens
+  |   |-> HTTP POST to Provider token endpoint
+  |   |-> Response: { access_token, refresh_token (optional) }
+  |-> Get user info from Provider
+  |   |-> HTTP GET to Provider userinfo endpoint (with access_token)
+  |   |-> Response: { providerUserId, email }
+  |-> Check for existing ExternalLogin
+  |   |-> Exists?
+  |   |   |-> Yes -> Use associated User
+  |   |   |   |-> User = externalLogin.User
+  |   |   |-> No -> Check User by email
+  |   |       |-> Exists?
+  |   |       |   |-> Yes -> Link to existing User
+  |   |       |   |-> No -> Create new User
+  |-> Generate JWT
+  |   |-> JWT: { sub: user.Id, email: user.Email, exp: 1hr }
+  |
+Client <- 200 OK (token, { id: user.Id, email: user.Email })

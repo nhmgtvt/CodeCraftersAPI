@@ -1,0 +1,15 @@
+Client -> POST /api/auth/login (email, password)
+  |
+Backend -> Validate request (email format, password not empty)
+  |-> Invalid? -> Yes -> 400 Bad Request ("Invalid input")
+  |-> No -> Query DB for User by email
+  |   |-> User exists?
+  |   |   |-> No -> 401 Unauthorized ("Invalid credentials")
+  |   |   |-> Yes -> Verify PasswordHash
+  |   |       |-> BCrypt.Verify(password, user.PasswordHash)
+  |   |       |-> Match?
+  |   |       |   |-> No -> 401 Unauthorized ("Invalid credentials")
+  |   |       |   |-> Yes -> Generate JWT
+  |   |       |       |-> JWT: { sub: user.Id, email: user.Email, exp: 1hr }
+  |   |       |       |
+  |   |       |       Client <- 200 OK (token, { id: user.Id, email: user.Email })

@@ -1,0 +1,6 @@
+@CodeCraftersAPI_HostAddress = http://localhost:5157
+
+GET {{CodeCraftersAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

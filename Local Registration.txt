@@ -1,0 +1,15 @@
+Client -> POST /api/auth/register (email, password)
+  |
+Backend -> Validate request (email format, password strength)
+  |-> Invalid? -> Yes -> 400 Bad Request ("Invalid input")
+  |-> No -> Check for existing User by email
+  |   |-> Exists?
+  |   |   |-> Yes -> 400 Bad Request ("Email already exists")
+  |   |   |-> No -> Create new User
+  |   |       |-> Hash password
+  |   |       |   |-> PasswordHash = BCrypt.HashPassword(password)
+  |   |       |-> User = { Id: new Guid, Email: email, PasswordHash, CreatedAt: now, UpdatedAt: now }
+  |   |       Generate JWT
+  |   |       |-> JWT: { sub: user.Id, email: user.Email, exp: 1hr }
+  |   |
+  |   Client <- 200 OK (token, { id: user.Id, email: user.Email })
