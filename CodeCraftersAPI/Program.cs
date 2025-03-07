@@ -30,7 +30,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 
 // Register external OAuth service
-builder.Services.AddScoped<IOAuthService, OAuthService>();
+builder.Services.AddHttpClient<IOAuthService, OAuthService>();
 
 // Add authentication and authorization
 var secretKey = builder.Configuration["JwtSettings:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is missing.");
