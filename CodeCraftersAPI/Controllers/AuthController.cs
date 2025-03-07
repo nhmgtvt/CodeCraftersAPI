@@ -8,19 +8,27 @@ namespace CodeCrafters.API.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthService _authService;
+        private readonly RegisterService _registerService;
+        private readonly PasswordLoginService _passwordLoginService;
+        private readonly OAuthLoginService _oauthLoginService;
 
-        public AuthController(AuthService authService)
+        public AuthController(
+            RegisterService registerService,
+            PasswordLoginService passwordLoginService,
+            OAuthLoginService oauthLoginService)
         {
-            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _registerService = registerService ?? throw new ArgumentNullException(nameof(registerService));
+            _passwordLoginService = passwordLoginService ?? throw new ArgumentNullException(nameof(passwordLoginService));
+            _oauthLoginService = oauthLoginService ?? throw new ArgumentNullException(nameof(oauthLoginService));
         }
 
+        // Email/Password Login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             try
             {
-                var response = await _authService.LoginAsync(request);
+                var response = await _passwordLoginService.LoginAsync(request);
                 return Ok(response);
             }
             catch (ArgumentException)
@@ -33,13 +41,13 @@ namespace CodeCrafters.API.Controllers
             }
         }
 
-        // Register a new user (password-based or via OAuth)
+        // Register a new user (password-based)
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             try
             {
-                var response = await _authService.RegisterAsync(request);
+                var response = await _registerService.RegisterAsync(request);
                 return Ok(response);
             }
             catch (ArgumentException ex)
@@ -52,7 +60,7 @@ namespace CodeCrafters.API.Controllers
         [HttpGet("{provider}/login")]
         public IActionResult OAuthLogin(string provider)
         {
-            var url = _authService.GetOAuthLoginUrl(provider);
+            var url = _oauthLoginService.GetOAuthLoginUrl(provider);
             return Redirect(url);
         }
 
@@ -62,7 +70,7 @@ namespace CodeCrafters.API.Controllers
         {
             try
             {
-                var response = await _authService.HandleOAuthCallbackAsync(provider, code);
+                var response = await _oauthLoginService.HandleOAuthCallbackAsync(provider, code);
                 return Ok(response);
             }
             catch (Exception)
