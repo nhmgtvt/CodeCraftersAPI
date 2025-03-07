@@ -20,8 +20,30 @@ builder.Services.AddScoped<PasswordLoginService>();
 builder.Services.AddScoped<OAuthLoginService>();
 
 // Configure the database context for SQLite
+// Fetch database settings from configuration
+var dbSettings = builder.Configuration.GetSection("DbSettings");
+
+// Set defaults for database settings if they are missing
+var databaseFileName = dbSettings.GetValue<string>("DatabaseFileName") ?? "data.db";  // Default to "data.db" if not provided
+var databaseDirectory = dbSettings.GetValue<string>("DatabaseDirectory") ?? "./";    // Default to current directory if not provided
+
+// Combine the directory and file name to get the full path
+var dbPath = Path.Combine(Directory.GetCurrentDirectory(), databaseDirectory, databaseFileName);
+
+// Add DbContext with dynamically created connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = $"Data Source={dbPath}";
+    options.UseSqlite(connectionString);
+});
+
+
+// Add DbContext with dynamically created connection string
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    var connectionString = $"Data Source={dbPath}";
+    options.UseSqlite(connectionString);
+});
 
 // Register repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -54,6 +76,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Ensure the database and tables are created automatically
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
