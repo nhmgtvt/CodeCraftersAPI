@@ -3,9 +3,7 @@ using CodeCrafters.Domain.Interfaces.Auth;
 using CodeCrafters.Infrastructure.Persistence;
 using CodeCrafters.Infrastructure.Repositories;
 using CodeCrafters.Infrastructure.Services.Auth;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
