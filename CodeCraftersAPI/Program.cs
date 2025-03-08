@@ -6,6 +6,7 @@ using CodeCrafters.Infrastructure.Services.Auth;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -88,14 +89,10 @@ using (var scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     // Add URL rewrite to redirect to Swagger UI by default
     app.UseRewriter(new RewriteOptions().AddRedirect("^$", "swagger"));
-
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.RoutePrefix = "swagger";  // This sets the Swagger UI to be at /swagger
-    });
 }
 
 app.UseHttpsRedirection();
