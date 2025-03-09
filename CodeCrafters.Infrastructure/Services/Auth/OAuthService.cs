@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using CodeCrafters.Domain.Interfaces.Auth;
 using Microsoft.Extensions.Configuration;
 
@@ -78,13 +79,46 @@ namespace CodeCrafters.Infrastructure.Services.Auth
 
     public class OAuthTokenResponse
     {
-        public required string AccessToken { get; set; }
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; } = string.Empty;
+
+        [JsonPropertyName("expires_in")]
+        public int ExpiresIn { get; set; }
+
+        [JsonPropertyName("refresh_token")]
         public string? RefreshToken { get; set; }
+
+        [JsonPropertyName("scope")]
+        public string Scope { get; set; } = string.Empty;
+
+        [JsonPropertyName("token_type")]
+        public string TokenType { get; set; } = string.Empty;
+
+        [JsonPropertyName("id_token")]
+        public string IdToken { get; set; } = string.Empty;
     }
 
     public class OAuthUserInfoResponse
     {
-        public required string Id { get; set; }
-        public required string Email { get; set; }
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = string.Empty;
+
+        [JsonPropertyName("verified_email")]
+        public bool VerifiedEmail { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("given_name")]
+        public string GivenName { get; set; } = string.Empty;
+
+        [JsonPropertyName("family_name")]
+        public string FamilyName { get; set; } = string.Empty;
+
+        [JsonPropertyName("picture")]
+        public string Picture { get; set; } = string.Empty;
     }
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign-In with API Callback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #response {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Sign In with Google</h2>
+        <button id="google-signin-btn">Sign in with Google</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        // Google OAuth 2.0 configuration
+        const clientId = 'your Client ID'; // Replace with your Client ID
+        const redirectUri = 'https://localhost:44311/api/auth/google/callback'; // Must match your redirect URI in Google Cloud Console
+        const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+        const apiEndpoint = ''; // Replace with your ASP.NET Core API URL
+
+        // Generate the Google OAuth URL
+        const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+            `client_id=${clientId}&` +
+            `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+            `response_type=code&` +
+            `scope=${encodeURIComponent(scope)}&` +
+            `access_type=offline&prompt=consent`;
+
+        // Handle button click to start OAuth flow
+        document.getElementById('google-signin-btn').addEventListener('click', () => {
+            window.location.href = authUrl; // Redirect to Google for authorization
+        });
+
+        // Function to extract code from URL and call API
+        function handleOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                // Send the code to your ASP.NET Core API
+                fetch(`${apiEndpoint}?code=${code}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('API call failed');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Display API response
+                    document.getElementById('response').innerHTML = `
+                        <p><strong>API Response:</strong> ${JSON.stringify(data)}</p>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById('response').innerHTML = `
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    `;
+                });
+
+                // Clear the code from the URL for cleanliness
+                window.history.replaceState({}, document.title, redirectUri);
+            }
+        }
+
+        // Check for code in URL on page load
+        window.onload = handleOAuthCallback;
+    </script>
+</body>
+</html>

@@ -56,14 +56,6 @@ namespace CodeCrafters.API.Controllers
             }
         }
 
-        // OAuth Login initiation (redirect to external provider login page)
-        [HttpGet("{provider}/login")]
-        public IActionResult OAuthLogin(string provider)
-        {
-            var url = _oauthLoginService.GetOAuthLoginUrl(provider);
-            return Redirect(url);
-        }
-
         // OAuth Callback after the user is authenticated with the external provider
         [HttpGet("{provider}/callback")]
         public async Task<IActionResult> OAuthCallback(string provider, [FromQuery] string code)

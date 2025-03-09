@@ -17,11 +17,6 @@ namespace CodeCrafters.Application.Services.Auth
             _jwtProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
         }
 
-        public string GetOAuthLoginUrl(string provider)
-        {
-            return _oauthService.GetOAuthLoginUrl(provider);
-        }
-
         public async Task<LoginResponse> HandleOAuthCallbackAsync(string provider, string code)
         {
             var (accessToken, refreshToken) = await _oauthService.ExchangeCodeForTokenAsync(provider, code);
