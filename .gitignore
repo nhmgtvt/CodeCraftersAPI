@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/CodeCraftersAPI/data.db
+/CodeCraftersAPI/data.db-shm
+/CodeCraftersAPI/data.db-wal
+/CodeCraftersAPI/appsettings.json
