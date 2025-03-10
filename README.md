@@ -57,3 +57,7 @@ Upon successful login, a token is returned in the response.
 
 Include the token in the Authorization header when making authenticated requests:
 Authorization: Bearer your-jwt-token
+
+## 🏗 Testing
+
+Testing is limited at the moment. For local login, please use swagger. For external login, please start a web server to host TestExternalAuth.html. Note that the file cannot be run directly and also proper settings for external environtment is required.
