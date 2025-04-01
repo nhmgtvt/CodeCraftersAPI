@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCrafters.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCrafters.Infrastructure", "CodeCrafters.Infrastructure\CodeCrafters.Infrastructure.csproj", "{49F31A78-8FE6-4EB6-AF0F-D8D54BB880F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCrafters.Test", "CodeCrafters.Test\CodeCrafters.Test.csproj", "{A94DEE79-24E2-49CD-98BD-CE2FB2CFCF12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +35,15 @@ Global
 		{49F31A78-8FE6-4EB6-AF0F-D8D54BB880F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49F31A78-8FE6-4EB6-AF0F-D8D54BB880F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49F31A78-8FE6-4EB6-AF0F-D8D54BB880F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94DEE79-24E2-49CD-98BD-CE2FB2CFCF12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94DEE79-24E2-49CD-98BD-CE2FB2CFCF12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94DEE79-24E2-49CD-98BD-CE2FB2CFCF12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94DEE79-24E2-49CD-98BD-CE2FB2CFCF12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98947FD0-D7D6-4443-971E-9AA0F15F42C0}
 	EndGlobalSection
 EndGlobal
