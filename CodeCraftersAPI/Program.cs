@@ -91,8 +91,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    // Add URL rewrite to redirect to Swagger UI by default
-    app.UseRewriter(new RewriteOptions().AddRedirect("^$", "swagger"));
 }
 
 app.UseHttpsRedirection();
