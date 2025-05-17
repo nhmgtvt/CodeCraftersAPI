@@ -31,7 +31,7 @@ namespace CodeCrafters.Infrastructure.Services.Auth
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // Unique token ID
-        };
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
